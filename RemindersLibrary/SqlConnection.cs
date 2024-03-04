@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace RemindersLibrary
 {
@@ -27,7 +28,7 @@ namespace RemindersLibrary
             }
         }
 
-        public static void SaveReminder(ReminderModel reminder)
+        public static void CreateReminder(ReminderModel reminder)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
@@ -35,6 +36,43 @@ namespace RemindersLibrary
                 cnn.Execute("insert into RemindersTable (Reminder, 1) values (@Reminder, @Enabled)", reminder);
             }
         }
+
+        public static void GetAllReminders()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+
+            }
+        }
+
+        public static ReminderModel GetOneReminder(int ID)
+        {
+            string sql = $"""SELECT * FROM RemindersTable WHERE ID = {ID}""";
+
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                ReminderModel output = cnn.QueryFirstOrDefault<ReminderModel>(sql);
+                Debug.WriteLine(output.Reminder);
+                return output;
+            }
+        }
+
+        public static void UpdateReminder(int ID, ReminderModel reminder)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+
+            }
+        }
+
+        public static void DeleteReminder(int ID)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+
+            }
+        }
+
 
         // This refers to App.config's connectionstring
         // According to the video at https://www.youtube.com/watch?v=ayp3tHEkRc0
@@ -45,6 +83,11 @@ namespace RemindersLibrary
             // gets connection string at name="Default" - basically selects the "tag"
             // then gets the actual string portion in the "tag"
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
+        }
+
+        public static void test()
+        {
+            Debug.WriteLine("In SqlConnection");
         }
     }
 }
