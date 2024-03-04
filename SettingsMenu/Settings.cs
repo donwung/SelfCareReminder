@@ -56,13 +56,17 @@ namespace SettingsMenu
         {
             //mouseClickIndex = checkedListBox1.IndexFromPoint(e.Location);
             //Debug.Print("Clicked on index {0}", mouseClickIndex);
-            Debug.WriteLine("dbc");
+            //Debug.WriteLine("dbc");
             int index = checkedListBox1.IndexFromPoint(e.Location);
-            Debug.WriteLine(index);
-            Debug.WriteLine(reminderList[index].Reminder);
-
-            //TODO: opendialog with the text from this idx
-            
+            //Debug.WriteLine(index);
+            //Debug.WriteLine(reminderList[index].Reminder);
+            if (index >= 0)
+            {
+                new UpdateReminderText(index).ShowDialog();
+            } else
+            {
+                Debug.WriteLine("idx == -1 aka clicked whitespace");
+            }
         }
 
         private void CheckedListBox1_ItemCheck(Object sender, ItemCheckEventArgs e)
@@ -70,8 +74,10 @@ namespace SettingsMenu
             if (mouseClickIndex == -1)
             {
                 e.NewValue = e.CurrentValue;
-                mouseClickIndex = -2;
-                Debug.Print("Check change suppressed");
+                //idk why this is -2
+                //mouseClickIndex = -2;
+                mouseClickIndex = -1;
+                //Debug.Print("Check change suppressed");
             }
         }
     }
