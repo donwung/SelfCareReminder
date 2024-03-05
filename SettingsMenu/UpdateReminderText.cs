@@ -49,15 +49,24 @@ namespace SettingsMenu
             Debug.Print(textBox1.Text);
             // if reminder is a default, disable that reminder, then add a new one
             // else, change nothing except the text itself
-            
-            if (currentReminder.Default == true)
-            {
-                // add a new reminder
-            } else
-            {
-                // update this reminder
 
-            }
+            //if (currentReminder.Default == true)
+            //{
+            //    // add a new reminder
+            //} else
+            //{
+            //    // update this reminder
+
+            //}
+
+            ReminderModel UpdatedReminder = currentReminder;
+            UpdatedReminder.Reminder = textBox1.Text;
+            //Debug.Print(index.ToString());
+            //Debug.Print(UpdatedReminder.Reminder);
+
+            SqlConnection.UpdateReminderText(index, UpdatedReminder);
+            this.Close();
+
 
             //SqlConnection.UpdateReminder(index, )
         }

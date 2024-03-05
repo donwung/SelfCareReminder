@@ -7,6 +7,8 @@ namespace SettingsMenu
     public partial class Settings : Form
     {
         List<ReminderModel> reminderList = new List<ReminderModel>();
+        Int32 mouseClickIndex = -2;
+
 
         public Settings()
         {
@@ -15,6 +17,8 @@ namespace SettingsMenu
 
         private void LoadReminderList()
         {
+            checkedListBox1.Items.Clear();
+            mouseClickIndex = -2;
             reminderList = SqlConnection.LoadReminders();
             OutputCheckedList();
         }
@@ -41,11 +45,9 @@ namespace SettingsMenu
                 }
                 // stick this in the designer
                 //checkedListBox1.ItemCheck += (s, e) => { if (e.CurrentValue == CheckState.Indeterminate) e.NewValue = CheckState.Indeterminate; };
-
             }
         }
 
-        Int32 mouseClickIndex = -2;
         private void CheckedListBox1_MouseClick(Object sender, MouseEventArgs e)
         {
             mouseClickIndex = checkedListBox1.IndexFromPoint(e.Location);
@@ -62,11 +64,22 @@ namespace SettingsMenu
             //Debug.WriteLine(reminderList[index].Reminder);
             if (index >= 0)
             {
-                new UpdateReminderText(index).ShowDialog();
-            } else
+                Form UpdateReminderTextMenu = new UpdateReminderText(index);
+                UpdateReminderTextMenu.StartPosition = FormStartPosition.Manual;
+                UpdateReminderTextMenu.Location = this.Location;
+                UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateRemindedTextMenuClose);
+                UpdateReminderTextMenu.ShowDialog();
+            }
+            else
             {
                 Debug.WriteLine("idx == -1 aka clicked whitespace");
             }
+        }
+
+        private void UpdateRemindedTextMenuClose(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Form closed - refreshing checklistbox");
+            LoadReminderList();
         }
 
         private void CheckedListBox1_ItemCheck(Object sender, ItemCheckEventArgs e)
@@ -78,6 +91,12 @@ namespace SettingsMenu
                 //mouseClickIndex = -2;
                 mouseClickIndex = -1;
                 //Debug.Print("Check change suppressed");
+            }
+            else if (mouseClickIndex >= 0)
+            {
+                Debug.Print($"Changed at index = {mouseClickIndex}");
+                //Debug.Print(checkedListBox1.GetItemChecked(mouseClickIndex).ToString());
+                SqlConnection.UpdateReminderEnable(mouseClickIndex, !checkedListBox1.GetItemChecked(mouseClickIndex));
             }
         }
     }

@@ -57,11 +57,25 @@ namespace RemindersLibrary
             }
         }
 
-        public static void UpdateReminder(int ID, ReminderModel reminder)
+        public static void UpdateReminderText(int ID, ReminderModel reminder)
         {
+            string sql = $"""UPDATE RemindersTable SET Reminder = "{reminder.Reminder}" WHERE ID = {ID.ToString()}""";
+            Debug.WriteLine(sql);
+
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
+                cnn.Execute(sql);
+            }
+        }
 
+        public static void UpdateReminderEnable(int ID, bool enabled)
+        {
+            string sql = $"""UPDATE RemindersTable SET Enabled = {enabled} WHERE ID = {ID.ToString()}""";
+            Debug.Write(sql);
+
+            using(IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute(sql);
             }
         }
 
