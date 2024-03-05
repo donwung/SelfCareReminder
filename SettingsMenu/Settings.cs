@@ -67,7 +67,7 @@ namespace SettingsMenu
                 Form UpdateReminderTextMenu = new UpdateReminderText(index);
                 UpdateReminderTextMenu.StartPosition = FormStartPosition.Manual;
                 UpdateReminderTextMenu.Location = this.Location;
-                UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateRemindedTextMenuClose);
+                UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
                 UpdateReminderTextMenu.ShowDialog();
             }
             else
@@ -76,7 +76,7 @@ namespace SettingsMenu
             }
         }
 
-        private void UpdateRemindedTextMenuClose(object sender, EventArgs e)
+        private void UpdateReminderTextMenuClose(object sender, EventArgs e)
         {
             Debug.WriteLine("Form closed - refreshing checklistbox");
             LoadReminderList();
@@ -98,6 +98,52 @@ namespace SettingsMenu
                 //Debug.Print(checkedListBox1.GetItemChecked(mouseClickIndex).ToString());
                 SqlConnection.UpdateReminderEnable(mouseClickIndex, !checkedListBox1.GetItemChecked(mouseClickIndex));
             }
+        }
+
+        private void AddReminderBtn_Click(object sender, EventArgs e)
+        {
+            int index = mouseClickIndex;
+
+            Form CreateReminderMenu = new CreateReminder();
+            CreateReminderMenu.StartPosition = FormStartPosition.Manual;
+            CreateReminderMenu.Location = this.Location;
+            CreateReminderMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
+            CreateReminderMenu.ShowDialog();
+        }
+
+        // TODO: refactor this to be more DRY - this func is a dupe
+        // TODO: set a universal parent location
+        private void EditReminderBtn_Click(object sender, EventArgs e)
+        {
+            Debug.Print(mouseClickIndex.ToString());
+            //mouseClickIndex = checkedListBox1.IndexFromPoint(e.Location);
+            //Debug.Print("Clicked on index {0}", mouseClickIndex);
+            //Debug.WriteLine("dbc");
+            int index = mouseClickIndex;
+            //Debug.WriteLine(index);
+            //Debug.WriteLine(reminderList[index].Reminder);
+            if (index >= 0)
+            {
+                Form UpdateReminderTextMenu = new UpdateReminderText(index);
+                UpdateReminderTextMenu.StartPosition = FormStartPosition.Manual;
+                UpdateReminderTextMenu.Location = this.Location;
+                UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
+                UpdateReminderTextMenu.ShowDialog();
+            }
+            else
+            {
+                Debug.WriteLine("idx == -1 aka clicked whitespace");
+            }
+        }
+
+        private void DeleteReminderBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CloseSettingsBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

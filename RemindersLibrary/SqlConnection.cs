@@ -30,10 +30,12 @@ namespace RemindersLibrary
 
         public static void CreateReminder(ReminderModel reminder)
         {
+            string sql = $"""insert into RemindersTable (Reminder, Enabled) values ("{reminder.Reminder}", {reminder.Enabled})""";
+
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 // these strings are SQL queries
-                cnn.Execute("insert into RemindersTable (Reminder, 1) values (@Reminder, @Enabled)", reminder);
+                cnn.Execute(sql);
             }
         }
 
