@@ -33,7 +33,7 @@ namespace SelfCareReminder
             InitializeComponent();
         }
 
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -104,6 +104,7 @@ namespace SelfCareReminder
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            // TODO: open a dialog to confirm close
         }
 
         private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -115,9 +116,17 @@ namespace SelfCareReminder
             }
         }
 
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            //TODO: maybe an animation functionality?
+        }
+
         private void settings_Click(object sender, EventArgs e)
         {
-            new Settings().ShowDialog();
+            Form Settings = new Settings();
+            Settings.StartPosition = FormStartPosition.Manual;
+            Settings.Location = this.Location;
+            Settings.ShowDialog();
         }
     }
 }
