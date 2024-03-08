@@ -13,6 +13,7 @@ namespace RemindersLibrary
 {
     public class SqlConnection
     {
+        // TODO: move away from using LoadReminders
         public static List<ReminderModel> LoadReminders()
         {
             // make sure to use a using statement
@@ -39,11 +40,13 @@ namespace RemindersLibrary
             }
         }
 
-        public static void GetAllReminders()
+        public static List<ReminderModel> GetAllEnabled()
         {
+            string sql = $"""SELECT * FROM RemindersTable WHERE Enabled = true""";
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-
+                var output = cnn.Query<ReminderModel>(sql);
+                return output.ToList();
             }
         }
 
@@ -83,9 +86,11 @@ namespace RemindersLibrary
 
         public static void DeleteReminder(int ID)
         {
+            string sql = $"""DELETE FROM RemindersTable WHERE ID = {ID}""";
+            Debug.WriteLine(sql);
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-
+                cnn.Execute(sql);
             }
         }
 

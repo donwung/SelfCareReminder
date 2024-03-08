@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace SettingsMenu
 {
-    public partial class UpdateReminderText : Form
+    public partial class UpdateReminderForm : Form
     {
         private int index;
         private ReminderModel currentReminder;
 
-        public UpdateReminderText(int updateAtIndex)
+        public UpdateReminderForm(int updateAtIndex)
         {
             InitializeComponent();
             index = updateAtIndex;
@@ -47,6 +47,7 @@ namespace SettingsMenu
         {
             Debug.Print("update button clicked, new text is: ");
             Debug.Print(textBox1.Text);
+            // TODO:
             // if reminder is a default, disable that reminder, then add a new one
             // else, change nothing except the text itself
 
@@ -64,17 +65,29 @@ namespace SettingsMenu
             //Debug.Print(index.ToString());
             //Debug.Print(UpdatedReminder.Reminder);
 
-            SqlConnection.UpdateReminderText(index, UpdatedReminder);
+            SqlConnection.UpdateReminderText(currentReminder.Id, UpdatedReminder);
             this.Close();
 
 
             //SqlConnection.UpdateReminder(index, )
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void deleteBtn_Click(object sender, EventArgs e)
         {
-            //Debug.Print("textbox changed");
-            //Debug.Print(textBox1.Text);
+            Debug.WriteLine("Deleting a reminder");
+
+            if (index >= 0)
+            {
+                Form DeleteReminderMenu = new DeleteReminder(index, currentReminder);
+                DeleteReminderMenu.StartPosition = FormStartPosition.Manual;
+                DeleteReminderMenu.Location = this.Location;
+                //DeleteReminderMenu.FormClosed += new FormClosedEventHandler(DeleteReminderMenuClose);
+                DeleteReminderMenu.ShowDialog();
+            }
+            else
+            {
+                Debug.WriteLine("idx == -1 aka clicked whitespace");
+            }
         }
     }
 }

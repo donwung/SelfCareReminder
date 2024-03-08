@@ -6,8 +6,8 @@ namespace SettingsMenu
 {
     public partial class Settings : Form
     {
-        List<ReminderModel> reminderList = new List<ReminderModel>();
-        Int32 mouseClickIndex = -2;
+        private List<ReminderModel> reminderList = new List<ReminderModel>();
+        private Int32 mouseClickIndex = -2;
 
 
         public Settings()
@@ -64,7 +64,7 @@ namespace SettingsMenu
             //Debug.WriteLine(reminderList[index].Reminder);
             if (index >= 0)
             {
-                Form UpdateReminderTextMenu = new UpdateReminderText(index);
+                Form UpdateReminderTextMenu = new UpdateReminderForm(reminderList[index].Id);
                 UpdateReminderTextMenu.StartPosition = FormStartPosition.Manual;
                 UpdateReminderTextMenu.Location = this.Location;
                 UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
@@ -124,7 +124,7 @@ namespace SettingsMenu
             //Debug.WriteLine(reminderList[index].Reminder);
             if (index >= 0)
             {
-                Form UpdateReminderTextMenu = new UpdateReminderText(index);
+                Form UpdateReminderTextMenu = new UpdateReminderForm(reminderList[index].Id);
                 UpdateReminderTextMenu.StartPosition = FormStartPosition.Manual;
                 UpdateReminderTextMenu.Location = this.Location;
                 UpdateReminderTextMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
@@ -138,7 +138,22 @@ namespace SettingsMenu
 
         private void DeleteReminderBtn_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("Deleting a reminder");
+            int index = mouseClickIndex;
 
+            if (index >= 0)
+            {
+                ReminderModel _reminder = reminderList[index];
+                Form DeleteReminderMenu = new DeleteReminder(index, reminderList[index]);
+                DeleteReminderMenu.StartPosition = FormStartPosition.Manual;
+                DeleteReminderMenu.Location = this.Location;
+                DeleteReminderMenu.FormClosed += new FormClosedEventHandler(UpdateReminderTextMenuClose);
+                DeleteReminderMenu.ShowDialog();
+            }
+            else
+            {
+                Debug.WriteLine("idx == -1 aka clicked whitespace");
+            }
         }
 
         private void CloseSettingsBtn_Click(object sender, EventArgs e)

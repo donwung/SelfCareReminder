@@ -1,6 +1,6 @@
 ﻿namespace SettingsMenu
 {
-    partial class UpdateReminderText
+    partial class UpdateReminderForm
     {
         /// <summary>
         /// Required designer variable.
@@ -70,7 +70,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(516, 23);
             textBox1.TabIndex = 3;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // deleteBtn
             // 
@@ -80,8 +79,9 @@
             deleteBtn.TabIndex = 4;
             deleteBtn.Text = "Delete Reminder";
             deleteBtn.UseVisualStyleBackColor = true;
+            deleteBtn.Click += deleteBtn_Click;
             // 
-            // UpdateReminderText
+            // UpdateReminderForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -91,7 +91,8 @@
             Controls.Add(label1);
             Controls.Add(cancelBtn);
             Controls.Add(updateBtn);
-            Name = "UpdateReminderText";
+            MaximizeBox = false;
+            Name = "UpdateReminderForm";
             Text = "Form1";
             ResumeLayout(false);
             PerformLayout();
