@@ -160,5 +160,10 @@ namespace SettingsMenu
         {
             this.Close();
         }
+
+        private void IntervalInput_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

@@ -36,6 +36,11 @@ namespace SettingsMenu
             EditReminderBtn = new Button();
             AddReminderBtn = new Button();
             CloseSettingsBtn = new Button();
+            IntervalInput = new NumericUpDown();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            ((System.ComponentModel.ISupportInitialize)IntervalInput).BeginInit();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -90,11 +95,50 @@ namespace SettingsMenu
             CloseSettingsBtn.UseVisualStyleBackColor = true;
             CloseSettingsBtn.Click += CloseSettingsBtn_Click;
             // 
+            // IntervalInput
+            // 
+            IntervalInput.Location = new Point(287, 213);
+            IntervalInput.Name = "IntervalInput";
+            IntervalInput.Size = new Size(41, 23);
+            IntervalInput.TabIndex = 6;
+            IntervalInput.ValueChanged += IntervalInput_ValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 215);
+            label1.Name = "label1";
+            label1.Size = new Size(46, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Interval";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(334, 215);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 15);
+            label2.TabIndex = 8;
+            label2.Text = "Minutes";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(246, 215);
+            label3.Name = "label3";
+            label3.Size = new Size(35, 15);
+            label3.TabIndex = 9;
+            label3.Text = "Every";
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(396, 530);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(IntervalInput);
             Controls.Add(CloseSettingsBtn);
             Controls.Add(AddReminderBtn);
             Controls.Add(EditReminderBtn);
@@ -103,7 +147,9 @@ namespace SettingsMenu
             Name = "Settings";
             Text = "Settings";
             Load += SettingsMenu_Load;
+            ((System.ComponentModel.ISupportInitialize)IntervalInput).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -112,5 +158,9 @@ namespace SettingsMenu
         private Button EditReminderBtn;
         private Button AddReminderBtn;
         private Button CloseSettingsBtn;
+        private NumericUpDown IntervalInput;
+        private Label label1;
+        private Label label2;
+        private Label label3;
     }
 }

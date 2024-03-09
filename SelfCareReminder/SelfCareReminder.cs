@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.Diagnostics;
 using RemindersLibrary;
 using SettingsMenu;
@@ -13,7 +14,7 @@ namespace SelfCareReminder
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         private List<ReminderModel> reminders = new List<ReminderModel>();
-
+        private System.Collections.Specialized.NameValueCollection config = System.Configuration.ConfigurationManager.AppSettings;
 
 
         public int count = 0;
@@ -22,6 +23,7 @@ namespace SelfCareReminder
         public SelfCareReminder()
         {
             InitializeComponent();
+            Debug.WriteLine(config["testkey"]);
         }
 
 
@@ -72,7 +74,15 @@ namespace SelfCareReminder
             label1.Text = "";
             if (reminders.Count <= 0)
             {
-                label1.Text = "None enabled";
+                label1.Text = config["testkey"];
+                //testkey = "mytestkey";
+                //config["testkey"] = "My new string";
+
+                System.Configuration.Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                _config.AppSettings.Settings["testkey"].Value = "My new";
+                _config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
             else
             {
