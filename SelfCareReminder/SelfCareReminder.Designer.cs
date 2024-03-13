@@ -28,15 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelfCareReminder));
+            timer1 = new System.Windows.Forms.Timer(components);
             label1 = new Label();
             panel1 = new Panel();
+            MyTimer = new System.Windows.Forms.Timer(components);
             pictureBox1 = new PictureBox();
-            button1 = new Button();
-            button2 = new Button();
+            OpenSettingsBtn = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
+            // 
+            // timer1
+            // 
+            timer1.Interval = 3000;
+            timer1.Tick += timer1_Tick;
             // 
             // label1
             // 
@@ -57,47 +64,43 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(309, 173);
             panel1.TabIndex = 2;
+            panel1.Paint += panel1_Paint;
+            // 
+            // MyTimer
+            // 
+            MyTimer.Interval = 1000;
             // 
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.Location = new Point(166, 191);
+            pictureBox1.Location = new Point(175, 191);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(155, 137);
+            pictureBox1.Size = new Size(146, 166);
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
+            pictureBox1.MouseDoubleClick += pictureBox1_DoubleClick;
             pictureBox1.MouseDown += pictureBox1_MouseDown;
             // 
-            // button1
+            // OpenSettingsBtn
             // 
-            button1.Location = new Point(246, 334);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 4;
-            button1.Text = "close";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            OpenSettingsBtn.Location = new Point(246, 363);
+            OpenSettingsBtn.Name = "OpenSettingsBtn";
+            OpenSettingsBtn.Size = new Size(75, 23);
+            OpenSettingsBtn.TabIndex = 5;
+            OpenSettingsBtn.Text = "Settings";
+            OpenSettingsBtn.UseVisualStyleBackColor = true;
+            OpenSettingsBtn.Click += OpenSettingsBtn_Click;
             // 
-            // button2
-            // 
-            button2.Location = new Point(166, 334);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 5;
-            button2.Text = "settings";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += settings_Click;
-            // 
-            // Form1
+            // SelfCareReminder
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(333, 369);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(pictureBox1);
+            ClientSize = new Size(333, 420);
+            Controls.Add(OpenSettingsBtn);
             Controls.Add(panel1);
-            Name = "Form1";
+            Controls.Add(pictureBox1);
+            Name = "SelfCareReminder";
             Text = "Form1";
             Load += Form1_Load;
             MouseDown += Form1_MouseDown;
@@ -111,8 +114,9 @@
 
         private Label label1;
         private Panel panel1;
+        private System.Windows.Forms.Timer MyTimer;
         private PictureBox pictureBox1;
-        private Button button1;
-        private Button button2;
+        private Button OpenSettingsBtn;
+        private System.Windows.Forms.Timer timer1;
     }
 }

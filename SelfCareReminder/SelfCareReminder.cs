@@ -1,7 +1,12 @@
 using System.Configuration;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using System.Windows.Input;
 using RemindersLibrary;
 using SettingsMenu;
+using System.Drawing.Text;
+using System.Runtime.InteropServices;
+
 
 namespace SelfCareReminder
 {
@@ -16,35 +21,63 @@ namespace SelfCareReminder
         private List<ReminderModel> reminders = new List<ReminderModel>();
         private System.Collections.Specialized.NameValueCollection config = System.Configuration.ConfigurationManager.AppSettings;
 
+        private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        private const UInt32 SWP_NOSIZE = 0x0001;
+        private const UInt32 SWP_NOMOVE = 0x0002;
+        private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
         public int count = 0;
 
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         public SelfCareReminder()
         {
             InitializeComponent();
             Debug.WriteLine(config["testkey"]);
+            //SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+
+            System.Windows.Forms.Timer AlwaysOnTopTimer = new System.Windows.Forms.Timer();
+            AlwaysOnTopTimer.Interval = 1;
+            AlwaysOnTopTimer.Tick += new EventHandler(AlwaysOnTopTick);
+            AlwaysOnTopTimer.Start();
         }
 
+        private void AlwaysOnTopTick(object sender, EventArgs e)
+        {
+            TopMost = true;
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var settings = configFile.AppSettings.Settings;
+
+
             label1.Text = "Test text";
             panel1.Visible = false;
-            System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
-            MyTimer.Interval = (2000);
+            //System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
+            MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
             MyTimer.Tick += new EventHandler(Tick);
             MyTimer.Start();
             HideBackgroundStyle();
-            SetReminders(sender, e);
+            LoadSettings(sender, e);
 
 
         }
 
-        private void SetReminders(object sender, EventArgs e)
+        private void LoadSettings(object sender, EventArgs e)
         {
+            // DRY this
+            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var settings = configFile.AppSettings.Settings;
+
+            //grabs enabled reminders
             reminders = SqlConnection.GetAllEnabled();
+            //updates tick interval
+            MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
         }
 
         private void HideBackgroundStyle()
@@ -69,27 +102,45 @@ namespace SelfCareReminder
         }
 
 
+
+
         private void Tick(object sender, EventArgs e)
         {
+            timer1.Dispose();
+
             label1.Text = "";
             if (reminders.Count <= 0)
             {
-                label1.Text = config["testkey"];
-                //testkey = "mytestkey";
-                //config["testkey"] = "My new string";
-
-                System.Configuration.Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-                _config.AppSettings.Settings["testkey"].Value = "My new";
-                _config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                //Debug.WriteLine("writing in appconfig");
+                label1.Text = "No Reminders Enabled";
             }
             else
             {
-                int rand = new Random().Next(reminders.Count);
+                //int rand = new Random().Next(reminders.Count);
+                int rand = SpecialRandomize();
                 label1.Text = reminders[rand].Reminder;
             }
             panel1.Visible = true;
+
+            timer1.Interval = 10000;
+            timer1.Stop();
+            timer1.Start();
+        }
+
+        private int previousRand;
+        private int SpecialRandomize()
+        {
+            int rand = new Random().Next(reminders.Count);
+            if (rand == previousRand)
+            {
+                rand = SpecialRandomize();
+            }
+            else
+            {
+                previousRand = rand;
+                return rand;
+            }
+            return rand;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -110,15 +161,29 @@ namespace SelfCareReminder
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             //TODO: maybe an animation functionality?
+            Debug.WriteLine("Opening Settings");
+
         }
 
-        private void settings_Click(object sender, EventArgs e)
+        private void OpenSettingsBtn_Click(object sender, EventArgs e)
         {
             Form Settings = new Settings();
             Settings.StartPosition = FormStartPosition.Manual;
             Settings.Location = this.Location;
-            Settings.FormClosed += new FormClosedEventHandler(SetReminders);
+            Settings.FormClosed += new FormClosedEventHandler(LoadSettings);
             Settings.ShowDialog();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("fadeaway timer");
+            timer1.Stop();
+            panel1.Visible = false;
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
