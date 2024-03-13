@@ -1,5 +1,7 @@
+using System.Configuration;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
 using RemindersLibrary;
 
 namespace SettingsMenu
@@ -12,7 +14,14 @@ namespace SettingsMenu
 
         public Settings()
         {
+            // DRY this
+            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var settings = configFile.AppSettings.Settings;
+
+            int interval = (int)Math.Floor(Double.Parse(settings["Interval"].Value) / 1000 / 60);
+
             InitializeComponent();
+            IntervalInput.Value = interval;
         }
 
         private void LoadReminderList()
@@ -163,7 +172,43 @@ namespace SettingsMenu
 
         private void IntervalInput_ValueChanged(object sender, EventArgs e)
         {
-            
+            Debug.WriteLine("IntervalInputValChanged");
+            Debug.WriteLine(IntervalInput.Value);
+            int intervalTime = (int)IntervalInput.Value * 1000 * 60;
+            UpdateConfig("Interval", intervalTime.ToString());
+        }
+
+        public static void UpdateConfig(string key, string value)
+        {
+            try
+            {
+
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Debug.WriteLine("Error writing app settings");
+            }
+        }
+
+        private void CloseApplicationBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
+
+
 }

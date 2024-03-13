@@ -88,6 +88,7 @@ namespace SettingsMenu
             {
                 Debug.WriteLine("idx == -1 aka clicked whitespace");
             }
+            this.Close();
         }
     }
 }

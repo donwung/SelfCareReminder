@@ -40,6 +40,7 @@ namespace SettingsMenu
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            CloseApplicationBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)IntervalInput).BeginInit();
             SuspendLayout();
             // 
@@ -98,10 +99,14 @@ namespace SettingsMenu
             // IntervalInput
             // 
             IntervalInput.Location = new Point(287, 213);
+            IntervalInput.Maximum = new decimal(new int[] { 1410065408, 2, 0, 0 });
+            IntervalInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             IntervalInput.Name = "IntervalInput";
             IntervalInput.Size = new Size(41, 23);
             IntervalInput.TabIndex = 6;
+            IntervalInput.Value = new decimal(new int[] { 1, 0, 0, 0 });
             IntervalInput.ValueChanged += IntervalInput_ValueChanged;
+            IntervalInput.KeyUp += IntervalInput_ValueChanged;
             // 
             // label1
             // 
@@ -130,11 +135,22 @@ namespace SettingsMenu
             label3.TabIndex = 9;
             label3.Text = "Every";
             // 
+            // CloseApplicationBtn
+            // 
+            CloseApplicationBtn.Location = new Point(12, 495);
+            CloseApplicationBtn.Name = "CloseApplicationBtn";
+            CloseApplicationBtn.Size = new Size(127, 23);
+            CloseApplicationBtn.TabIndex = 10;
+            CloseApplicationBtn.Text = "Close Application";
+            CloseApplicationBtn.UseVisualStyleBackColor = true;
+            CloseApplicationBtn.Click += CloseApplicationBtn_Click;
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(396, 530);
+            Controls.Add(CloseApplicationBtn);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -162,5 +178,6 @@ namespace SettingsMenu
         private Label label1;
         private Label label2;
         private Label label3;
+        private Button CloseApplicationBtn;
     }
 }
