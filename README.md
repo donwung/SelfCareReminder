@@ -15,4 +15,6 @@ By default, every minute, this app will pop open a small speech bubble with a fe
 
 # Credits
 
-To all my friends that tell me HYDRATION CHECK.
+To all my friends that tell me "HYDRATION CHECK"
+
+To Lauren, who initially provided the idea
