@@ -99,7 +99,7 @@
             Controls.Add(CancelDeleteBtn);
             Controls.Add(ConfirmDeleteBtn);
             Name = "DeleteReminder";
-            Text = "Form1";
+            Text = "Delete Reminder";
             ResumeLayout(false);
         }
 

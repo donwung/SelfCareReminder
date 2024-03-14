@@ -93,7 +93,7 @@
             Controls.Add(updateBtn);
             MaximizeBox = false;
             Name = "UpdateReminderForm";
-            Text = "Form1";
+            Text = "Updating Reminder";
             ResumeLayout(false);
             PerformLayout();
         }

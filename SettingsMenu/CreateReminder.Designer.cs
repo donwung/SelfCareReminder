@@ -80,7 +80,7 @@
             Controls.Add(textBox1);
             Controls.Add(AddNewReminderBtn);
             Name = "CreateReminder";
-            Text = "Form1";
+            Text = "Create Reminder";
             ResumeLayout(false);
             PerformLayout();
         }

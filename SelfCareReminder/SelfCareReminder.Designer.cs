@@ -102,8 +102,9 @@
             Controls.Add(OpenSettingsBtn);
             Controls.Add(panel1);
             Controls.Add(pictureBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SelfCareReminder";
-            Text = "Form1";
+            Text = "SelfCareReminder";
             Load += Form1_Load;
             MouseDown += Form1_MouseDown;
             panel1.ResumeLayout(false);
