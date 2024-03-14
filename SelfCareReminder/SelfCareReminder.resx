@@ -206,7 +206,7 @@
   <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAJQAAACgCAYAAADq10VvAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAABi5JREFUeF7tlMut3EYQRV8SXnqjGByG4IgMr52Cw9DCQTgRpyG5hSq7ULrDITlF
+        wQAADsEBuJFr7QAABi5JREFUeF7tlMut3EYQRV8SXnqjGByG4IgMr52Cw9DCQTgRpyG5hSq7ULrDITlF
         9mfOAc5C85rd9bnQBwAAAAAAABzg05fPX49on8G7o8LxqnY1rI5a/pZ//fPzLtW3TXsWVkItOqtCctZ8
         t5UxP7mxrB1bEtWvq0JwhfFNK2suYgMV2rXToHpw1cLvMNZgZY5NLFipmmyqs3u0Z4dB1eiqvnvo9VjJ
         4xGHllUNnVHdnbVyuqDqaapemnvOXKW/a6WPRRyMq5q4QvV21Eq8FPWuqrWpzrrq/FX6m9bCOPQayCNj
@@ -235,4 +235,7 @@
         FKUd74aqSWnHAbZR4VHacYBtVHiydhQAAAAAAAAA4L34+PgGpD5OSVPFUKgAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="HideSettingsTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>206, 17</value>
+  </metadata>
 </root>

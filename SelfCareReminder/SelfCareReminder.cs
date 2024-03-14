@@ -26,6 +26,8 @@ namespace SelfCareReminder
         private const UInt32 SWP_NOMOVE = 0x0002;
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
+        private bool AlwaysOnTop = true;
+
         public int count = 0;
 
         [DllImport("user32.dll")]
@@ -42,11 +44,16 @@ namespace SelfCareReminder
             AlwaysOnTopTimer.Interval = 1;
             AlwaysOnTopTimer.Tick += new EventHandler(AlwaysOnTopTick);
             AlwaysOnTopTimer.Start();
+
+            OpenSettingsBtn.Visible = false;
         }
 
         private void AlwaysOnTopTick(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (AlwaysOnTop)
+            {
+                TopMost = true;
+            }
         }
 
 
@@ -78,6 +85,7 @@ namespace SelfCareReminder
             reminders = SqlConnection.GetAllEnabled();
             //updates tick interval
             MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
+            AlwaysOnTop = true;
         }
 
         private void HideBackgroundStyle()
@@ -100,8 +108,6 @@ namespace SelfCareReminder
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-
-
 
 
         private void Tick(object sender, EventArgs e)
@@ -165,8 +171,24 @@ namespace SelfCareReminder
 
         }
 
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            Debug.WriteLine("mouse entered");
+            OpenSettingsBtn.Visible = true;
+            HideSettingsTimer.Interval = 3000;
+            HideSettingsTimer.Start();
+            HideSettingsTimer.Tick += new EventHandler(HideSettingsBtn);
+        }
+
+        private void HideSettingsBtn(object sender, EventArgs e)
+        {
+            OpenSettingsBtn.Visible = false;
+        }
+
         private void OpenSettingsBtn_Click(object sender, EventArgs e)
         {
+            AlwaysOnTop = false;
+            TopMost = false;
             Form Settings = new Settings();
             Settings.StartPosition = FormStartPosition.Manual;
             Settings.Location = this.Location;

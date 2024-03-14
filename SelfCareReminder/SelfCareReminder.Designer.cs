@@ -36,6 +36,7 @@
             MyTimer = new System.Windows.Forms.Timer(components);
             pictureBox1 = new PictureBox();
             OpenSettingsBtn = new Button();
+            HideSettingsTimer = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -81,6 +82,7 @@
             pictureBox1.TabStop = false;
             pictureBox1.MouseDoubleClick += pictureBox1_DoubleClick;
             pictureBox1.MouseDown += pictureBox1_MouseDown;
+            pictureBox1.MouseEnter += pictureBox1_MouseEnter;
             // 
             // OpenSettingsBtn
             // 
@@ -118,5 +120,6 @@
         private PictureBox pictureBox1;
         private Button OpenSettingsBtn;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer HideSettingsTimer;
     }
 }
