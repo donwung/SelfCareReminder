@@ -57,7 +57,7 @@ namespace SelfCareReminder
         }
 
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void SelfCareReminder_Load(object sender, EventArgs e)
         {
             var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var settings = configFile.AppSettings.Settings;
@@ -67,7 +67,7 @@ namespace SelfCareReminder
             panel1.Visible = false;
             //System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
             MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
-            MyTimer.Tick += new EventHandler(Tick);
+            MyTimer.Tick += new EventHandler(ShowReminder_Tick);
             MyTimer.Start();
             HideBackgroundStyle();
             LoadSettings(sender, e);
@@ -110,27 +110,29 @@ namespace SelfCareReminder
         }
 
 
-        private void Tick(object sender, EventArgs e)
+        private void ShowReminder_Tick(object sender, EventArgs e)
         {
-            timer1.Dispose();
-
             label1.Text = "";
             if (reminders.Count <= 0)
             {
                 //Debug.WriteLine("writing in appconfig");
                 label1.Text = "No Reminders Enabled";
             }
-            else
+            else // Show a new reminder
             {
-                //int rand = new Random().Next(reminders.Count);
                 int rand = SpecialRandomize();
                 label1.Text = reminders[rand].Reminder;
-            }
-            panel1.Visible = true;
 
-            timer1.Interval = 10000;
-            timer1.Stop();
-            timer1.Start();
+                // TODO: make a queue to limit the amount of forms that show up
+                ReminderBubble MyTestForm = new ReminderBubble(reminders[rand]);
+                MyTestForm.Show();
+            }
+            //panel1.Visible = true;
+
+
+            FadeReminderTimer.Interval = 10000;
+            FadeReminderTimer.Stop();
+            FadeReminderTimer.Start();
         }
 
         private int previousRand;
@@ -155,7 +157,7 @@ namespace SelfCareReminder
             // TODO: open a dialog to confirm close
         }
 
-        private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void Mascot_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -164,18 +166,19 @@ namespace SelfCareReminder
             }
         }
 
-        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        private void Mascot_DoubleClick(object sender, EventArgs e)
         {
             //TODO: maybe an animation functionality?
             Debug.WriteLine("Opening Settings");
 
         }
 
-        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        private void Mascot_MouseEnter(object sender, EventArgs e)
         {
-            Debug.WriteLine("mouse entered");
+            //Debug.WriteLine("mouse entered");
             OpenSettingsBtn.Visible = true;
             HideSettingsTimer.Interval = 3000;
+            HideSettingsTimer.Stop();
             HideSettingsTimer.Start();
             HideSettingsTimer.Tick += new EventHandler(HideSettingsBtn);
         }
@@ -196,16 +199,21 @@ namespace SelfCareReminder
             Settings.ShowDialog();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void FadeReminderTimer_Tick(object sender, EventArgs e)
         {
             Debug.WriteLine("fadeaway timer");
-            timer1.Stop();
+            FadeReminderTimer.Stop();
             panel1.Visible = false;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void DBG_NewReminder_Click(object sender, EventArgs e)
+        {
+            ShowReminder_Tick(sender, EventArgs.Empty);
         }
     }
 }

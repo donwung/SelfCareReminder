@@ -1,7 +1,6 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Windows.Media.Animation;
 using RemindersLibrary;
 
 namespace SettingsMenu
