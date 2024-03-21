@@ -31,8 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelfCareReminder));
             FadeReminderTimer = new System.Windows.Forms.Timer(components);
-            label1 = new Label();
-            panel1 = new Panel();
             MyTimer = new System.Windows.Forms.Timer(components);
             Mascot = new PictureBox();
             OpenSettingsBtn = new Button();
@@ -42,7 +40,6 @@
             button3 = new Button();
             DBG_PrintLast5 = new Button();
             DBG_NewReminder = new Button();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Mascot).BeginInit();
             DebugControls.SuspendLayout();
             SuspendLayout();
@@ -52,27 +49,6 @@
             FadeReminderTimer.Interval = 3000;
             FadeReminderTimer.Tick += FadeReminderTimer_Tick;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.White;
-            label1.Location = new Point(32, 55);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 1;
-            label1.Text = "label1";
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(label1);
-            panel1.Location = new Point(132, 6);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(309, 173);
-            panel1.TabIndex = 2;
-            panel1.Paint += panel1_Paint;
-            // 
             // MyTimer
             // 
             MyTimer.Interval = 1000;
@@ -80,7 +56,7 @@
             // Mascot
             // 
             Mascot.BackgroundImage = (Image)resources.GetObject("Mascot.BackgroundImage");
-            Mascot.Location = new Point(295, 185);
+            Mascot.Location = new Point(94, 185);
             Mascot.Name = "Mascot";
             Mascot.Size = new Size(146, 166);
             Mascot.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -93,7 +69,7 @@
             // 
             // OpenSettingsBtn
             // 
-            OpenSettingsBtn.Location = new Point(366, 357);
+            OpenSettingsBtn.Location = new Point(165, 357);
             OpenSettingsBtn.Name = "OpenSettingsBtn";
             OpenSettingsBtn.Size = new Size(75, 23);
             OpenSettingsBtn.TabIndex = 5;
@@ -108,9 +84,9 @@
             DebugControls.Controls.Add(button3);
             DebugControls.Controls.Add(DBG_PrintLast5);
             DebugControls.Controls.Add(DBG_NewReminder);
-            DebugControls.Location = new Point(12, 185);
+            DebugControls.Location = new Point(246, 185);
             DebugControls.Name = "DebugControls";
-            DebugControls.Size = new Size(277, 341);
+            DebugControls.Size = new Size(419, 341);
             DebugControls.TabIndex = 6;
             DebugControls.TabStop = false;
             DebugControls.Text = "DebugControls";
@@ -157,27 +133,21 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(453, 538);
+            ClientSize = new Size(677, 538);
             Controls.Add(DebugControls);
             Controls.Add(OpenSettingsBtn);
-            Controls.Add(panel1);
             Controls.Add(Mascot);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SelfCareReminder";
             Text = "SelfCareReminder";
             Load += SelfCareReminder_Load;
             MouseDown += Form1_MouseDown;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)Mascot).EndInit();
             DebugControls.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Label label1;
-        private Panel panel1;
         private System.Windows.Forms.Timer MyTimer;
         private PictureBox Mascot;
         private Button OpenSettingsBtn;

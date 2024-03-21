@@ -44,6 +44,7 @@
             ReminderBubbleText.TabIndex = 0;
             ReminderBubbleText.Text = "label1";
             ReminderBubbleText.TextAlign = ContentAlignment.MiddleCenter;
+            ReminderBubbleText.Click += this.ReminderBubble_Click;
             // 
             // BubbleGraphic
             // 
@@ -53,6 +54,7 @@
             BubbleGraphic.Size = new Size(320, 189);
             BubbleGraphic.TabIndex = 2;
             BubbleGraphic.TabStop = false;
+            BubbleGraphic.Click += this.ReminderBubble_Click;
             // 
             // ReminderBubble
             // 

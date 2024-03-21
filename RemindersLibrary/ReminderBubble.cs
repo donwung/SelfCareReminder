@@ -15,12 +15,26 @@ namespace RemindersLibrary
     public partial class ReminderBubble : Form
     {
         ReminderModel reminder;
-        public ReminderBubble(ReminderModel reminder)
+        public ReminderBubble(ReminderModel reminder, Point parentLocation)
         {
             InitializeComponent();
             this.reminder = reminder;
             ReminderBubbleText.Text = reminder.Reminder;
             this.FormClosing += ReminderBubble_FormClosing;
+
+
+            this.ControlBox = false;
+            this.Text = String.Empty;
+
+            this.BackColor = Color.LimeGreen;
+            this.TransparencyKey = Color.LimeGreen;
+
+            this.FormBorderStyle = FormBorderStyle.None;
+
+
+
+            StartPosition = FormStartPosition.Manual;
+            Location = parentLocation;
 
             //PictureBox myPictureBox = new PictureBox
             //{
@@ -59,6 +73,11 @@ namespace RemindersLibrary
         private void ReminderBubble_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+        }
+
+        private void ReminderBubble_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 

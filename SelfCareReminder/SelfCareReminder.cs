@@ -64,8 +64,8 @@ namespace SelfCareReminder
             var settings = configFile.AppSettings.Settings;
 
 
-            label1.Text = "Test text";
-            panel1.Visible = false;
+            //label1.Text = "Test text";
+            //panel1.Visible = false;
             //System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
             MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
             MyTimer.Tick += new EventHandler(ShowReminder_Tick);
@@ -113,20 +113,20 @@ namespace SelfCareReminder
 
         private void ShowReminder_Tick(object sender, EventArgs e)
         {
-            label1.Text = "";
+            //label1.Text = "";
             if (reminders.Count <= 0)
             {
                 //Debug.WriteLine("writing in appconfig");
-                label1.Text = "No Reminders Enabled";
+                //label1.Text = "No Reminders Enabled";
             }
             else // Show a new reminder
             {
                 int rand = SpecialRandomize();
-                label1.Text = reminders[rand].Reminder;
+                //label1.Text = reminders[rand].Reminder;
 
 
                 // TODO: make a queue to limit the amount of forms that show up
-                ReminderBubble _NewReminderBubble = new ReminderBubble(reminders[rand]);
+                ReminderBubble _NewReminderBubble = new ReminderBubble(reminders[rand], Location);
                 _NewReminderBubble.FormClosing += ReminderBubble_FormClosing;
                 _NewReminderBubble.Show();
                 ReminderBubbleList.Add(_NewReminderBubble);
@@ -219,7 +219,7 @@ namespace SelfCareReminder
         {
             Debug.WriteLine("fadeaway timer");
             FadeReminderTimer.Stop();
-            panel1.Visible = false;
+            //panel1.Visible = false;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
