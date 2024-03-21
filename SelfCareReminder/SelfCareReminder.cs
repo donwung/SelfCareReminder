@@ -27,6 +27,7 @@ namespace SelfCareReminder
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
         private bool AlwaysOnTop = true;
+        private List<ReminderBubble> ReminderBubbleList = new List<ReminderBubble>();
 
         public int count = 0;
 
@@ -123,9 +124,18 @@ namespace SelfCareReminder
                 int rand = SpecialRandomize();
                 label1.Text = reminders[rand].Reminder;
 
+
                 // TODO: make a queue to limit the amount of forms that show up
-                ReminderBubble MyTestForm = new ReminderBubble(reminders[rand]);
-                MyTestForm.Show();
+                ReminderBubble _NewReminderBubble = new ReminderBubble(reminders[rand]);
+                _NewReminderBubble.FormClosing += ReminderBubble_FormClosing;
+                _NewReminderBubble.Show();
+                ReminderBubbleList.Add(_NewReminderBubble);
+                if (ReminderBubbleList.Count > 5)
+                {
+                    // Closes oldest
+                    ReminderBubbleList[0].Close();
+                    Debug.WriteLine(ReminderBubbleList.Count);
+                } 
             }
             //panel1.Visible = true;
 
@@ -133,6 +143,12 @@ namespace SelfCareReminder
             FadeReminderTimer.Interval = 10000;
             FadeReminderTimer.Stop();
             FadeReminderTimer.Start();
+        }
+
+        private void ReminderBubble_FormClosing(object sender, EventArgs e)
+        {
+            var closedForm = sender as ReminderBubble;
+            ReminderBubbleList.Remove(closedForm);
         }
 
         private int previousRand;
@@ -214,6 +230,11 @@ namespace SelfCareReminder
         private void DBG_NewReminder_Click(object sender, EventArgs e)
         {
             ShowReminder_Tick(sender, EventArgs.Empty);
+        }
+
+        private void DBG_PrintLast5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

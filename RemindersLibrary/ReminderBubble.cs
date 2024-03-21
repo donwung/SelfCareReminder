@@ -20,6 +20,7 @@ namespace RemindersLibrary
             InitializeComponent();
             this.reminder = reminder;
             ReminderBubbleText.Text = reminder.Reminder;
+            this.FormClosing += ReminderBubble_FormClosing;
 
             //PictureBox myPictureBox = new PictureBox
             //{
@@ -53,6 +54,11 @@ namespace RemindersLibrary
             BubbleGraphic.Height = ClientRectangle.Height;
             BubbleGraphic.SizeMode = PictureBoxSizeMode.StretchImage;
             BubbleGraphic.Visible = true;
+        }
+
+        private void ReminderBubble_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 

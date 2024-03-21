@@ -40,7 +40,7 @@
             DebugControls = new GroupBox();
             button4 = new Button();
             button3 = new Button();
-            button2 = new Button();
+            DBG_PrintLast5 = new Button();
             DBG_NewReminder = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Mascot).BeginInit();
@@ -106,11 +106,11 @@
             DebugControls.BackColor = SystemColors.Info;
             DebugControls.Controls.Add(button4);
             DebugControls.Controls.Add(button3);
-            DebugControls.Controls.Add(button2);
+            DebugControls.Controls.Add(DBG_PrintLast5);
             DebugControls.Controls.Add(DBG_NewReminder);
             DebugControls.Location = new Point(12, 185);
             DebugControls.Name = "DebugControls";
-            DebugControls.Size = new Size(277, 223);
+            DebugControls.Size = new Size(277, 341);
             DebugControls.TabIndex = 6;
             DebugControls.TabStop = false;
             DebugControls.Text = "DebugControls";
@@ -133,14 +133,15 @@
             button3.Text = "button3";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // DBG_PrintLast5
             // 
-            button2.Location = new Point(6, 51);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 1;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            DBG_PrintLast5.Location = new Point(6, 51);
+            DBG_PrintLast5.Name = "DBG_PrintLast5";
+            DBG_PrintLast5.Size = new Size(129, 23);
+            DBG_PrintLast5.TabIndex = 1;
+            DBG_PrintLast5.Text = "DBG_PrintLast5";
+            DBG_PrintLast5.UseVisualStyleBackColor = true;
+            DBG_PrintLast5.Click += DBG_PrintLast5_Click;
             // 
             // DBG_NewReminder
             // 
@@ -156,7 +157,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(453, 420);
+            ClientSize = new Size(453, 538);
             Controls.Add(DebugControls);
             Controls.Add(OpenSettingsBtn);
             Controls.Add(panel1);
@@ -184,7 +185,7 @@
         private System.Windows.Forms.Timer HideSettingsTimer;
         private GroupBox DebugControls;
         private Button button3;
-        private Button button2;
+        private Button DBG_PrintLast5;
         private Button DBG_NewReminder;
         private Button button4;
     }
