@@ -10,6 +10,16 @@ So I've created this little application to help be a bit more mindful.
 
 By default, every minute, this app will pop open a small speech bubble with a few phrases to simply just remind you to be a bit mindful and take a little break away from your screen to do important tasks like drinking water or stretching.
 
+# How to Use
+Navigate over to the releases page and download the latest release.
+
+Extract the contents of the folder somewhere.
+
+Then run SelfCareReminder.exe.
+
+And that's it!
+
+The settings and reminders should be configurable and saved after each edit.
 
 --------
 
