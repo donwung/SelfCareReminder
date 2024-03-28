@@ -141,7 +141,7 @@
             Name = "SelfCareReminder";
             Text = "SelfCareReminder";
             Load += SelfCareReminder_Load;
-            MouseDown += Form1_MouseDown;
+            MouseDown += Mascot_MouseDown;
             ((System.ComponentModel.ISupportInitialize)Mascot).EndInit();
             DebugControls.ResumeLayout(false);
             ResumeLayout(false);

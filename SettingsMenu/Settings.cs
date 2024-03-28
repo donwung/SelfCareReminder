@@ -10,17 +10,18 @@ namespace SettingsMenu
         private List<ReminderModel> reminderList = new List<ReminderModel>();
         private Int32 mouseClickIndex = -2;
 
-
         public Settings()
         {
             // DRY this
             var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var settings = configFile.AppSettings.Settings;
 
-            int interval = (int)Math.Floor(Double.Parse(settings["Interval"].Value) / 1000 / 60);
+            int interval = (int)Math.Floor(Double.Parse(settings["PopupTickInterval"].Value) / 1000 / 60);
+            int maxReminders = (int)Int32.Parse(settings["ReminderBubbleListMax"].Value);
 
             InitializeComponent();
             IntervalInput.Value = interval;
+            ReminderBubbleListMax.Value = maxReminders;
         }
 
         private void LoadReminderList()
@@ -171,10 +172,12 @@ namespace SettingsMenu
 
         private void IntervalInput_ValueChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine("IntervalInputValChanged");
-            Debug.WriteLine(IntervalInput.Value);
+            //Debug.WriteLine("IntervalInputValChanged");
+            //Debug.WriteLine(IntervalInput.Value);
             int intervalTime = (int)IntervalInput.Value * 1000 * 60;
-            UpdateConfig("Interval", intervalTime.ToString());
+            if (intervalTime < 60000)
+                intervalTime = 60000;
+            UpdateConfig("PopupTickInterval", intervalTime.ToString());
         }
 
         public static void UpdateConfig(string key, string value)
@@ -206,6 +209,12 @@ namespace SettingsMenu
         private void CloseApplicationBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void ReminderBubbleListMax_ValueChanged(object sender, EventArgs e)
+        {
+            int maxReminders = (int)ReminderBubbleListMax.Value;
+            UpdateConfig("ReminderBubbleListMax", maxReminders.ToString());
         }
     }
 

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReminderBubble));
             ReminderBubbleText = new Label();
             BubbleGraphic = new PixelBox();
+            Close = new Button();
             ((System.ComponentModel.ISupportInitialize)BubbleGraphic).BeginInit();
             SuspendLayout();
             // 
@@ -38,13 +39,13 @@
             // 
             ReminderBubbleText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             ReminderBubbleText.BackColor = Color.White;
-            ReminderBubbleText.Location = new Point(12, 42);
+            ReminderBubbleText.Location = new Point(12, 57);
             ReminderBubbleText.Name = "ReminderBubbleText";
-            ReminderBubbleText.Size = new Size(270, 59);
+            ReminderBubbleText.Size = new Size(329, 84);
             ReminderBubbleText.TabIndex = 0;
             ReminderBubbleText.Text = "label1";
             ReminderBubbleText.TextAlign = ContentAlignment.MiddleCenter;
-            ReminderBubbleText.Click += this.ReminderBubble_Click;
+            ReminderBubbleText.Click += ReminderBubble_Click;
             // 
             // BubbleGraphic
             // 
@@ -54,13 +55,35 @@
             BubbleGraphic.Size = new Size(320, 189);
             BubbleGraphic.TabIndex = 2;
             BubbleGraphic.TabStop = false;
-            BubbleGraphic.Click += this.ReminderBubble_Click;
+            BubbleGraphic.Click += ReminderBubble_Click;
+            // 
+            // Close
+            // 
+            Close.BackColor = Color.IndianRed;
+            Close.BackgroundImageLayout = ImageLayout.None;
+            Close.CausesValidation = false;
+            Close.Cursor = Cursors.Hand;
+            Close.FlatAppearance.BorderColor = Color.IndianRed;
+            Close.FlatAppearance.BorderSize = 0;
+            Close.FlatAppearance.MouseDownBackColor = Color.Brown;
+            Close.FlatAppearance.MouseOverBackColor = Color.LightCoral;
+            Close.FlatStyle = FlatStyle.Flat;
+            Close.Font = new Font("BIZ UDPGothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Close.Location = new Point(322, 8);
+            Close.Name = "Close";
+            Close.Size = new Size(21, 21);
+            Close.TabIndex = 3;
+            Close.Text = "X";
+            Close.UseVisualStyleBackColor = false;
+            Close.MouseClick += Close_Click;
+            Close.MouseUp += Close_Click;
             // 
             // ReminderBubble
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(294, 161);
+            ClientSize = new Size(353, 186);
+            Controls.Add(Close);
             Controls.Add(ReminderBubbleText);
             Controls.Add(BubbleGraphic);
             Name = "ReminderBubble";
@@ -74,5 +97,6 @@
 
         private Label ReminderBubbleText;
         private PixelBox BubbleGraphic;
+        private Button Close;
     }
 }

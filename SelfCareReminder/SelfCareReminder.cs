@@ -6,18 +6,24 @@ using RemindersLibrary;
 using SettingsMenu;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using System.Numerics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 
 namespace SelfCareReminder
 {
     public partial class SelfCareReminder : Form
     {
+        // Needed for grabbable mascot
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
+        // End grabbable mascot declaration
+
+
         private List<ReminderModel> reminders = new List<ReminderModel>();
         private System.Collections.Specialized.NameValueCollection config = System.Configuration.ConfigurationManager.AppSettings;
 
@@ -27,6 +33,10 @@ namespace SelfCareReminder
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
         private bool AlwaysOnTop = true;
+        
+        private int ReminderBubbleListMax = 5;
+        private int PopupTickInterval = 60000;
+
         private List<ReminderBubble> ReminderBubbleList = new List<ReminderBubble>();
 
         public int count = 0;
@@ -37,55 +47,52 @@ namespace SelfCareReminder
 
         public SelfCareReminder()
         {
+            Refresh();
             InitializeComponent();
-            Debug.WriteLine(config["testkey"]);
-            //SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
-
-            System.Windows.Forms.Timer AlwaysOnTopTimer = new System.Windows.Forms.Timer();
-            AlwaysOnTopTimer.Interval = 1;
-            AlwaysOnTopTimer.Tick += new EventHandler(AlwaysOnTopTick);
-            AlwaysOnTopTimer.Start();
-
-            OpenSettingsBtn.Visible = false;
+            DebugControls.Visible = false;
         }
 
         private void AlwaysOnTopTick(object sender, EventArgs e)
         {
             if (AlwaysOnTop)
-            {
                 TopMost = true;
-            }
         }
 
 
         private void SelfCareReminder_Load(object sender, EventArgs e)
         {
-            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            var settings = configFile.AppSettings.Settings;
-
-
+            Refresh();
             //label1.Text = "Test text";
             //panel1.Visible = false;
             //System.Windows.Forms.Timer MyTimer = new System.Windows.Forms.Timer();
-            MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
+            System.Windows.Forms.Timer AlwaysOnTopTimer = new System.Windows.Forms.Timer();
+            AlwaysOnTopTimer.Interval = 1;
+            AlwaysOnTopTimer.Tick += new EventHandler(AlwaysOnTopTick);
+            AlwaysOnTopTimer.Start();
+
+            Debug.WriteLine(PopupTickInterval.ToString());
+
+            MyTimer.Interval = PopupTickInterval;
             MyTimer.Tick += new EventHandler(ShowReminder_Tick);
             MyTimer.Start();
             HideBackgroundStyle();
-            LoadSettings(sender, e);
+            Refresh(sender, e);
 
-
+            OpenSettingsBtn.Visible = false;
         }
 
-        private void LoadSettings(object sender, EventArgs e)
+        private void Refresh(object sender, EventArgs e)
         {
-            // DRY this
+            Debug.WriteLine("Refreshing");
+            // Loads config settings
             var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var settings = configFile.AppSettings.Settings;
 
-            //grabs enabled reminders
+            ReminderBubbleListMax = Int32.Parse(settings["ReminderBubbleListMax"].Value);
+            PopupTickInterval = Int32.Parse(settings["PopupTickInterval"].Value);
+
+            // Enables other settings
             reminders = SqlConnection.GetAllEnabled();
-            //updates tick interval
-            MyTimer.Interval = Int32.Parse(settings["Interval"].Value);
             AlwaysOnTop = true;
         }
 
@@ -101,48 +108,46 @@ namespace SelfCareReminder
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
-        private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-
-
         private void ShowReminder_Tick(object sender, EventArgs e)
         {
+            Debug.WriteLine(ReminderBubbleListMax);
+            Debug.WriteLine(ReminderBubbleList.Count);
+
             //label1.Text = "";
             if (reminders.Count <= 0)
             {
-                //Debug.WriteLine("writing in appconfig");
-                //label1.Text = "No Reminders Enabled";
+                //Debug.WriteLine("no reminders enabled");
             }
             else // Show a new reminder
             {
-                int rand = SpecialRandomize();
-                //label1.Text = reminders[rand].Reminder;
-
-
-                // TODO: make a queue to limit the amount of forms that show up
-                ReminderBubble _NewReminderBubble = new ReminderBubble(reminders[rand], Location);
-                _NewReminderBubble.FormClosing += ReminderBubble_FormClosing;
-                _NewReminderBubble.Show();
-                ReminderBubbleList.Add(_NewReminderBubble);
-                if (ReminderBubbleList.Count > 5)
+                if (ReminderBubbleList.Count >= ReminderBubbleListMax)
                 {
-                    // Closes oldest
                     ReminderBubbleList[0].Close();
-                    Debug.WriteLine(ReminderBubbleList.Count);
-                } 
+
+                    PopUpReminderBubble();
+                }
+                else
+                {
+                    PopUpReminderBubble();
+                }
+                this.FlashNotification();
             }
             //panel1.Visible = true;
 
 
-            FadeReminderTimer.Interval = 10000;
-            FadeReminderTimer.Stop();
-            FadeReminderTimer.Start();
+            //FadeReminderTimer.Interval = 10000;
+            //FadeReminderTimer.Stop();
+            //FadeReminderTimer.Start();
+        }
+
+        private void PopUpReminderBubble()
+        {
+            int rand = SpecialRandomize();
+
+            ReminderBubble _NewReminderBubble = new ReminderBubble(reminders[rand], Location);
+            _NewReminderBubble.FormClosing += ReminderBubble_FormClosing;
+            _NewReminderBubble.Show();
+            ReminderBubbleList.Add(_NewReminderBubble);
         }
 
         private void ReminderBubble_FormClosing(object sender, EventArgs e)
@@ -155,6 +160,12 @@ namespace SelfCareReminder
         private int SpecialRandomize()
         {
             int rand = new Random().Next(reminders.Count);
+            if (reminders.Count == 1)
+            {
+                return rand;
+            }
+
+
             if (rand == previousRand)
             {
                 rand = SpecialRandomize();
@@ -211,7 +222,7 @@ namespace SelfCareReminder
             Form Settings = new Settings();
             Settings.StartPosition = FormStartPosition.Manual;
             Settings.Location = this.Location;
-            Settings.FormClosed += new FormClosedEventHandler(LoadSettings);
+            Settings.FormClosed += new FormClosedEventHandler(Refresh);
             Settings.ShowDialog();
         }
 
@@ -220,11 +231,6 @@ namespace SelfCareReminder
             Debug.WriteLine("fadeaway timer");
             FadeReminderTimer.Stop();
             //panel1.Visible = false;
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void DBG_NewReminder_Click(object sender, EventArgs e)

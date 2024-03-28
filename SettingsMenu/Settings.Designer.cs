@@ -38,10 +38,11 @@ namespace SettingsMenu
             CloseSettingsBtn = new Button();
             IntervalInput = new NumericUpDown();
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
             CloseApplicationBtn = new Button();
+            label4 = new Label();
+            ReminderBubbleListMax = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)IntervalInput).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ReminderBubbleListMax).BeginInit();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -98,7 +99,7 @@ namespace SettingsMenu
             // 
             // IntervalInput
             // 
-            IntervalInput.Location = new Point(287, 213);
+            IntervalInput.Location = new Point(343, 213);
             IntervalInput.Maximum = new decimal(new int[] { 1410065408, 2, 0, 0 });
             IntervalInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             IntervalInput.Name = "IntervalInput";
@@ -113,27 +114,9 @@ namespace SettingsMenu
             label1.AutoSize = true;
             label1.Location = new Point(12, 215);
             label1.Name = "label1";
-            label1.Size = new Size(46, 15);
+            label1.Size = new Size(182, 15);
             label1.TabIndex = 7;
-            label1.Text = "Interval";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(334, 215);
-            label2.Name = "label2";
-            label2.Size = new Size(50, 15);
-            label2.TabIndex = 8;
-            label2.Text = "Minutes";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(246, 215);
-            label3.Name = "label3";
-            label3.Size = new Size(35, 15);
-            label3.TabIndex = 9;
-            label3.Text = "Every";
+            label1.Text = "Minutes before another reminder";
             // 
             // CloseApplicationBtn
             // 
@@ -145,14 +128,32 @@ namespace SettingsMenu
             CloseApplicationBtn.UseVisualStyleBackColor = true;
             CloseApplicationBtn.Click += CloseApplicationBtn_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 244);
+            label4.Name = "label4";
+            label4.Size = new Size(177, 15);
+            label4.TabIndex = 11;
+            label4.Text = "Maximum number of reminders";
+            // 
+            // ReminderBubbleListMax
+            // 
+            ReminderBubbleListMax.Location = new Point(343, 242);
+            ReminderBubbleListMax.Name = "ReminderBubbleListMax";
+            ReminderBubbleListMax.Size = new Size(41, 23);
+            ReminderBubbleListMax.TabIndex = 12;
+            ReminderBubbleListMax.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            ReminderBubbleListMax.ValueChanged += ReminderBubbleListMax_ValueChanged;
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(396, 530);
+            Controls.Add(ReminderBubbleListMax);
+            Controls.Add(label4);
             Controls.Add(CloseApplicationBtn);
-            Controls.Add(label3);
-            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(IntervalInput);
             Controls.Add(CloseSettingsBtn);
@@ -164,6 +165,7 @@ namespace SettingsMenu
             Text = "Settings";
             Load += SettingsMenu_Load;
             ((System.ComponentModel.ISupportInitialize)IntervalInput).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ReminderBubbleListMax).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -176,8 +178,8 @@ namespace SettingsMenu
         private Button CloseSettingsBtn;
         private NumericUpDown IntervalInput;
         private Label label1;
-        private Label label2;
-        private Label label3;
         private Button CloseApplicationBtn;
+        private Label label4;
+        private NumericUpDown ReminderBubbleListMax;
     }
 }
